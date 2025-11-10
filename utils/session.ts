@@ -32,8 +32,33 @@ export const cookieStorage = {
 export const googleClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID as string;
 
 // utils/session.ts
+export function getAccessToken(): string {
+  return cookieStorage.getItem("accessToken") || "";
+}
+
+export function setAccessToken(token: string) {
+  cookieStorage.setItem("accessToken", token);
+}
+
+export function removeAccessToken() {
+  cookieStorage.removeItem("accessToken");
+}
+
+export function getRefreshToken(): string {
+  return cookieStorage.getItem("refreshToken") || "";
+}
+
+export function setRefreshToken(token: string) {
+  cookieStorage.setItem("refreshToken", token);
+}
+
+export function removeRefreshToken() {
+  cookieStorage.removeItem("refreshToken");
+}
+
+// For backward compatibility
 export function getToken(): string {
-  return cookieStorage.getItem("authToken") || "";
+  return getAccessToken();
 }
 
 export const isTokenExpired = (token: string): boolean => {

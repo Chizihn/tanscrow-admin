@@ -31,12 +31,12 @@ export enum DocumentType {
 }
 
 export interface VerificationDocument {
-  readonly id: string;
+  id: string;
   documentType: DocumentType;
   documentNumber: string;
   documentUrl: string;
   verificationStatus: VerificationStatus;
-  readonly submittedAt: Date;
+  submittedAt: Date;
   readonly createdAt: Date;
   readonly updatedAt: Date;
   readonly verifiedAt: Date;
@@ -50,8 +50,6 @@ export enum EscrowStatus {
   REFUNDED = "REFUNDED",
   PARTIALLY_REFUNDED = "PARTIALLY_REFUNDED",
 }
-
-
 
 export interface Evidence {
   id: string;
@@ -337,4 +335,37 @@ export interface Payment {
   readonly createdAt: Date;
   updatedAt: Date;
   transaction?: Transaction[];
+}
+
+export interface AuthPayload {
+  accessToken: string;
+  refreshToken: string;
+  user: User;
+}
+
+export interface AuditLog {
+  id: string;
+  userId: string;
+  entityType: string;
+  action: string;
+  category: string;
+  details: string;
+  createdAt: string;
+}
+
+export interface VerificationDocument {
+  id: string;
+  userId: string;
+  documentType: DocumentType;
+  documentNumber: string;
+  documentUrl: string;
+  verificationStatus: VerificationStatus;
+  rejectionReason?: string;
+  submittedAt: Date;
+}
+
+export interface ReviewVerificationDocumentInput {
+  documentId: string;
+  status: VerificationStatus;
+  rejectionReason: string;
 }

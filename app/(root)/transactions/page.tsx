@@ -55,18 +55,18 @@ export default function TransactionsPage() {
     to: new Date(),
   });
 
-  const { data, loading, error } = useQuery<{
+  const { data, loading, error, refetch } = useQuery<{
     getFilteredTransactions: Transaction[];
   }>(GET_FILTERED_TRANSACTIONS, {
     variables: {
       filter: {
         page: currentPage,
         limit,
-        transactionStatus:
-          transactionStatus === "all" ? undefined : transactionStatus,
+        transactionStatus: transactionStatus === "all" ? undefined : transactionStatus,
         escrowStatus: escrowStatus === "all" ? undefined : escrowStatus,
         startDate: dateRange?.from || subDays(new Date(), 30),
         endDate: dateRange?.to || new Date(),
+        search: searchTerm || undefined,
       },
     },
   });
@@ -75,15 +75,23 @@ export default function TransactionsPage() {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    // Implement search functionality
+    setCurrentPage(1);
+    refetch({
+      filter: {
+        page: 1,
+        limit,
+        transactionStatus: transactionStatus === "all" ? undefined : transactionStatus,
+        escrowStatus: escrowStatus === "all" ? undefined : escrowStatus,
+        startDate: dateRange?.from || subDays(new Date(), 30),
+        endDate: dateRange?.to || new Date(),
+        search: searchTerm || undefined,
+      },
+    });
   };
 
   if (error) {
-    console.error("Error fetching transactions:", error);
     return (
-      <div className="text-red-600">
-        An error occurred while fetching transactions.
-      </div>
+      <div className="text-red-600 p-6">An error occurred while fetching transactions: {error.message}</div>
     );
   }
 
@@ -259,6 +267,9 @@ export default function TransactionsPage() {
                 </Pagination>
               </div>
             </>
+          )}
+          {(!loading && transactions.length === 0) && (
+            <div className="text-center text-muted-foreground py-8">No transactions found.</div>
           )}
         </CardContent>
       </Card>

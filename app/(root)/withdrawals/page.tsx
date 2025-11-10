@@ -81,9 +81,10 @@ export default function WithdrawalsPage() {
       filter: {
         page: currentPage,
         limit,
-        status: status === "all" ? undefined : status, // Updated condition
+        status: status === "all" ? undefined : status,
         startDate: dateRange?.from,
         endDate: dateRange?.to,
+        search: searchTerm || undefined,
       },
     },
   });
@@ -105,7 +106,17 @@ export default function WithdrawalsPage() {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    // Implement search functionality
+    setCurrentPage(1);
+    refetch({
+      filter: {
+        page: 1,
+        limit,
+        status: status === "all" ? undefined : status,
+        startDate: dateRange?.from,
+        endDate: dateRange?.to,
+        search: searchTerm || undefined,
+      },
+    });
   };
 
   const handleConfirmWithdrawal = (id: string) => {
@@ -128,6 +139,14 @@ export default function WithdrawalsPage() {
         return "bg-gray-100 text-gray-800";
     }
   };
+
+  if (error) {
+    return (
+      <div className="p-6">
+        <p className="text-red-500">Error loading withdrawals: {error.message}</p>
+      </div>
+    );
+  }
 
   return (
     <div className="p-6 space-y-6">
@@ -274,6 +293,9 @@ export default function WithdrawalsPage() {
                 </Pagination>
               </div>
             </>
+          )}
+          {(!loading && withdrawals.length === 0) && (
+            <div className="text-center text-muted-foreground py-8">No withdrawals found.</div>
           )}
         </CardContent>
       </Card>

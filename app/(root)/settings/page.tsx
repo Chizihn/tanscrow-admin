@@ -213,6 +213,9 @@ export default function SettingsPage() {
           )}
         </>
       )}
+      {(!loading && configs.length === 0) && (
+        <div className="text-center text-muted-foreground py-8">No system settings found.</div>
+      )}
     </div>
   );
 }

@@ -34,6 +34,8 @@ const mainMenuItems: MenuItem[] = [
   { href: "/withdrawals", icon: CreditCard, label: "Withdrawals" },
   { href: "/reports", icon: FileBarChart, label: "Reports" },
   { href: "/notifications", icon: Bell, label: "Notifications" },
+  { href: "/audit-logs", icon: FileText, label: "Audit Logs" },
+  { href: "/verification-documents", icon: AlertTriangle, label: "Verification Docs" },
 ];
 
 const systemMenuItems: MenuItem[] = [

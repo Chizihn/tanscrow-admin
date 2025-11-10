@@ -1,18 +1,18 @@
-"use client"
+/* eslint-disable @typescript-eslint/no-explicit-any */
+"use client";
 
-import * as React from "react"
-import * as RechartsPrimitive from "recharts"
-import { cn } from "@/lib/utils"
+import * as React from "react";
+import * as RechartsPrimitive from "recharts";
 
-import { ChartContainer } from "./chart"
+import { ChartContainer } from "./chart";
 
 interface BarChartProps {
-  data: any[]
-  index: string
-  categories: string[]
-  colors: string[]
-  valueFormatter?: (value: number) => string
-  className?: string
+  data: any[];
+  index: string;
+  categories: string[];
+  colors: string[];
+  valueFormatter?: (value: number) => string;
+  className?: string;
 }
 
 export function BarChart({
@@ -24,7 +24,7 @@ export function BarChart({
   className,
 }: BarChartProps) {
   return (
-    <ChartContainer id="bar-chart" config={{}}>
+    <ChartContainer id="bar-chart" className={className} config={{}}>
       <RechartsPrimitive.ResponsiveContainer width="100%" height="100%">
         <RechartsPrimitive.BarChart data={data}>
           <RechartsPrimitive.XAxis dataKey={index} />
@@ -44,7 +44,7 @@ export function BarChart({
         </RechartsPrimitive.BarChart>
       </RechartsPrimitive.ResponsiveContainer>
     </ChartContainer>
-  )
+  );
 }
 
-export default BarChart
+export default BarChart;

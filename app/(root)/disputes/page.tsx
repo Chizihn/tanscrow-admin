@@ -58,16 +58,17 @@ export default function DisputesPage() {
     to: new Date(),
   });
 
-  const { data, loading, error } = useQuery<{ getFilteredDisputes: Dispute[] }>(
+  const { data, loading, error, refetch } = useQuery<{ getFilteredDisputes: Dispute[] }>(
     GET_FILTERED_DISPUTES,
     {
       variables: {
         filter: {
           page: currentPage,
           limit,
-          status: status === "ALL" ? null : status, // Send null for "ALL" to your GraphQL query
+          status: status === "ALL" ? null : status,
           startDate: dateRange?.from || subDays(new Date(), 30),
           endDate: dateRange?.to || new Date(),
+          search: searchTerm || undefined,
         },
       },
     }
@@ -77,7 +78,17 @@ export default function DisputesPage() {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    // Implement search functionality
+    setCurrentPage(1);
+    refetch({
+      filter: {
+        page: 1,
+        limit,
+        status: status === "ALL" ? null : status,
+        startDate: dateRange?.from || subDays(new Date(), 30),
+        endDate: dateRange?.to || new Date(),
+        search: searchTerm || undefined,
+      },
+    });
   };
 
   if (error) {
@@ -215,6 +226,9 @@ export default function DisputesPage() {
                 </Pagination>
               </div>
             </>
+          )}
+          {(!loading && disputes.length === 0) && (
+            <div className="text-center text-muted-foreground py-8">No disputes found.</div>
           )}
         </CardContent>
       </Card>

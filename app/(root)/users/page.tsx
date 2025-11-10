@@ -60,7 +60,7 @@ export default function UsersPage() {
     <div className="p-6 space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold">Users</h1>
-        <Button>Add User</Button>
+        {/* <Button>Add User</Button> */}
       </div>
 
       <Card>

@@ -29,6 +29,36 @@ export const SIGN_IN_WITH_EMAIL = gql`
   }
 `;
 
+export const REFRESH_TOKEN = gql`
+  mutation RefreshToken($refreshToken: String!) {
+    refreshToken(refreshToken: $refreshToken) {
+      accessToken
+      refreshToken
+      user {
+        id
+        email
+        firstName
+        lastName
+        phoneNumber
+        profileImageUrl
+        accountType
+        verified
+        providers {
+          id
+          provider
+          providerId
+          refreshToken
+          tokenExpiry
+          userId
+          createdAt
+        }
+        createdAt
+        updatedAt
+      }
+    }
+  }
+`;
+
 export const ME = gql`
   query Me {
     me {
@@ -488,16 +518,42 @@ export const GET_AUDIT_LOGS = gql`
     getAuditLogs(take: $take, skip: $skip, filter: $filter) {
       items {
         id
+        userId
         entityType
         action
         category
         details
-        ipAddress
-        userAgent
         createdAt
       }
       total
       hasMore
+    }
+  }
+`;
+
+export const PENDING_VERIFICATION_DOCUMENTS = gql`
+  query PendingVerificationDocuments {
+    pendingVerificationDocuments {
+      id
+      userId
+      documentType
+      documentNumber
+      documentUrl
+      verificationStatus
+      submittedAt
+    }
+  }
+`;
+
+export const REVIEW_VERIFICATION_DOCUMENT = gql`
+  mutation ReviewVerificationDocument(
+    $input: ReviewVerificationDocumentInput!
+  ) {
+    reviewVerificationDocument(input: $input) {
+      id
+      verificationStatus
+      rejectionReason
+      verifiedAt
     }
   }
 `;
@@ -568,6 +624,70 @@ export const CONFIRM_WITHDRAWAL = gql`
       failureReason
       createdAt
       updatedAt
+    }
+  }
+`;
+
+export const CREATE_PRODUCT = gql`
+  mutation CreateProduct($input: CreateProductInput!) {
+    createProduct(input: $input) {
+      id
+      title
+      description
+      price
+      imageUrl
+      status
+      createdAt
+      updatedAt
+      seller {
+        id
+        firstName
+        lastName
+        email
+      }
+    }
+  }
+`;
+
+export const UPDATE_PRODUCT = gql`
+  mutation UpdateProduct($id: ID!, $input: UpdateProductInput!) {
+    updateProduct(id: $id, input: $input) {
+      id
+      title
+      description
+      price
+      imageUrl
+      status
+      updatedAt
+    }
+  }
+`;
+
+export const DELETE_PRODUCT = gql`
+  mutation DeleteProduct($id: ID!) {
+    deleteProduct(id: $id) {
+      id
+    }
+  }
+`;
+
+export const PRODUCTS = gql`
+  query Products {
+    products {
+      id
+      title
+      description
+      price
+      imageUrl
+      status
+      createdAt
+      updatedAt
+      seller {
+        id
+        firstName
+        lastName
+        email
+      }
     }
   }
 `;

@@ -29,4 +29,7 @@ export const ESCROW_STATUS_COLORS: Record<string, string> = {
 };
 
 // export const API_URL = "https://tanscrow.onrender.com/graphql";
-export const API_URL = "http://localhost:5000/graphql";
+export const API_URL =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:5000/graphql"
+    : process.env.NEXT_PUBLIC_API_URL;

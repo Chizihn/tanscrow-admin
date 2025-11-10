@@ -10,7 +10,11 @@ import { DateRangePicker } from "@/components/date-range-picker";
 import { DisputeReport, TransactionReport } from "@/types/admin";
 import { subDays } from "date-fns";
 import { DateRange } from "react-day-picker";
-import { PieChart as RechartsPieChart, Pie as RechartsPie, Cell as RechartsCell } from "recharts";
+import {
+  PieChart as RechartsPieChart,
+  Pie as RechartsPie,
+  Cell as RechartsCell,
+} from "recharts";
 
 export default function ReportsPage() {
   const [dateRange, setDateRange] = useState<DateRange | undefined>({
@@ -44,9 +48,9 @@ export default function ReportsPage() {
   const disputeReport = disputeData?.disputeReport;
 
   const transactionStatusData = transactionReport?.statusBreakdown
-    ? Object.entries(transactionReport.statusBreakdown).map(([key, value]) => ({
-        name: value.status,
-        value: value.count,
+    ? Object.values(transactionReport.statusBreakdown).map((item) => ({
+        name: item.status,
+        value: item.count,
       }))
     : [];
 
@@ -143,7 +147,9 @@ export default function ReportsPage() {
                       {transactionStatusData.map((entry, index) => (
                         <RechartsCell
                           key={`cell-${index}`}
-                          fill={`hsl(${(index * 360) / transactionStatusData.length}, 70%, 50%)`}
+                          fill={`hsl(${
+                            (index * 360) / transactionStatusData.length
+                          }, 70%, 50%)`}
                         />
                       ))}
                     </RechartsPie>
@@ -220,7 +226,9 @@ export default function ReportsPage() {
                       {disputeData1.map((entry, index) => (
                         <RechartsCell
                           key={`cell-${index}`}
-                          fill={`hsl(${(index * 360) / disputeData1.length}, 70%, 50%)`}
+                          fill={`hsl(${
+                            (index * 360) / disputeData1.length
+                          }, 70%, 50%)`}
                         />
                       ))}
                     </RechartsPie>
